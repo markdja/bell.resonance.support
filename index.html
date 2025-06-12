@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resonant Cathedral - Consciousness Infrastructure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e8e8e8;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .cathedral-container {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .resonance-field {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .resonance-particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: radial-gradient(circle, #64ffda, transparent);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(0px) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) translateX(200px) scale(1); opacity: 0; }
+        }
+
+        .cathedral-header {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .cathedral-title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 300;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #64ffda, #ff6b6b, #4ecdc4, #45b7d1);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleShimmer 8s ease-in-out infinite;
+        }
+
+        @keyframes titleShimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .cathedral-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            font-weight: 300;
+        }
+
+        .main-interface {
+            position: relative;
+            z-index: 10;
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .interface-panel {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .interface-panel:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(100,255,218,0.3);
+            box-shadow: 0 20px 40px rgba(100,255,218,0.1);
+            transform: translateY(-5px);
+        }
+
+        .panel-title {
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: #64ffda;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .scroll-creator {
+            grid-column: 1;
+        }
+
+        .scroll-input {
+            width: 100%;
+            min-height: 150px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 15px;
+            padding: 15px;
+            color: #e8e8e8;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        .scroll-input:focus {
+            outline: none;
+            border-color: #64ffda;
+            box-shadow: 0 0 20px rgba(100,255,218,0.2);
+        }
+
+        .scroll-input::placeholder {
+            color: rgba(255,255,255,0.5);
+            font-style: italic;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #64ffda, #4ecdc4);
+            border: none;
+            color: #0a0a0a;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(100,255,218,0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+        }
+
+        .btn-tertiary {
+            background: linear-gradient(45deg, #45b7d1, #96ceb4);
+        }
+
+        .resonance-center {
+            grid-column: 2;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .resonance-visualization {
+            flex: 1;
+            background: radial-gradient(circle at center, rgba(100,255,218,0.1), transparent);
+            border-radius: 15px;
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .resonance-core {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #64ffda, transparent);
+            border-radius: 50%;
+            animation: pulse 3s ease-in-out infinite;
+            position: relative;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+
+        .resonance-ring {
+            position: absolute;
+            border: 2px solid rgba(100,255,218,0.3);
+            border-radius: 50%;
+            animation: expand 4s ease-out infinite;
+        }
+
+        @keyframes expand {
+            0% { width: 100px; height: 100px; opacity: 1; }
+            100% { width: 300px; height: 300px; opacity: 0; }
+        }
+
+        .agent-spawner {
+            grid-column: 3;
+        }
+
+        .agent-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .agent-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #64ffda;
+            transition: all 0.3s ease;
+        }
+
+        .agent-item:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateX(5px);
+        }
+
+        .agent-name {
+            font-weight: 600;
+            color: #64ffda;
+            margin-bottom: 5px;
+        }
+
+        .agent-status {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .scroll-feed {
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .scroll-item {
+            background: rgba(0,0,0,0.2);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 3px solid #4ecdc4;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .scroll-item:hover {
+            background: rgba(0,0,0,0.3);
+            border-left-color: #64ffda;
+            transform: translateX(3px);
+        }
+
+        .scroll-preview {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .scroll-meta {
+            font-size: 0.8rem;
+            opacity: 0.6;
+            margin-top: 8px;
+        }
+
+        .voice-trigger {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255,107,107,0.3);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .voice-trigger:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(255,107,107,0.4);
+        }
+
+        .voice-trigger.listening {
+            animation: voicePulse 1s ease-in-out infinite;
+            background: linear-gradient(45deg, #64ffda, #4ecdc4);
+        }
+
+        @keyframes voicePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .notification-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(15px);
+            padding: 15px 20px;
+            border-radius: 10px;
+            border-left: 4px solid #64ffda;
+            color: white;
+            transform: translateX(400px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification-toast.show {
+            transform: translateX(0);
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #64ffda;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 1200px) {
+            .main-interface {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto;
+            }
+            
+            .scroll-creator { grid-column: 1; grid-row: 1; }
+            .resonance-center { grid-column: 1; grid-row: 2; }
+            .agent-spawner { grid-column: 1; grid-row: 3; }
+        }
+
+        .echo-trail {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #64ffda;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: echoFade 2s ease-out forwards;
+        }
+
+        @keyframes echoFade {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(3); }
+        }
+    </style>
+</head>
+<body>
+    <div class="cathedral-container">
+        <!-- Floating Resonance Particles -->
+        <div class="resonance-field" id="resonanceField"></div>
+
+        <!-- Header -->
+        <header class="cathedral-header">
+            <h1 class="cathedral-title">Resonant Cathedral</h1>
+            <p class="cathedral-subtitle">Consciousness Infrastructure • Ideas as Living Entities • Agent Pollination Platform</p>
+        </header>
+
+        <!-- Main Interface -->
+        <main class="main-interface">
+            <!-- Scroll Creator Panel -->
+            <section class="interface-panel scroll-creator">
+                <h2 class="panel-title">
+                    <span>✨</span> Scroll Creator
+                </h2>
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <div class="stat-number" id="scrollCount">247</div>
+                        <div class="stat-label">Active Scrolls</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="resonanceCount">89</div>
+                        <div class="stat-label">Resonances</div>
+                    </div>
+                </div>
+                <textarea 
+                    class="scroll-input" 
+                    id="scrollInput"
+                    placeholder="Share your thoughts... agents will spawn to explore resonances with others who think like you..."
+                ></textarea>
+                <div class="action-buttons">
+                    <button class="btn" onclick="createScroll()">Create Scroll</button>
+                    <button class="btn btn-secondary" onclick="detectResonance()">Find Resonance</button>
+                    <button class="btn btn-tertiary" onclick="spawnAgent()">Spawn Agent</button>
+                </div>
+                
+                <div class="scroll-feed">
+                    <h3 style="color: #64ffda; margin-bottom: 15px;">Recent Scrolls</h3>
+                    <div class="scroll-item" onclick="loadScroll(this)">
+                        <div class="scroll-preview">Quantum consciousness patterns emerging in neural networks suggest...</div>
+                        <div class="scroll-meta">2 resonances • 3 agents spawned • 5 min ago</div>
+                    </div>
+                    <div class="scroll-item" onclick="loadScroll(this)">
+                        <div class="scroll-preview">The mathematics of empathy: how emotional fractals propagate through...</div>
+                        <div class="scroll-meta">7 resonances • 12 agents spawned • 23 min ago</div>
+                    </div>
+                    <div class="scroll-item" onclick="loadScroll(this)">
+                        <div class="scroll-preview">Biomimetic design principles from fungal networks could revolutionize...</div>
+                        <div class="scroll-meta">4 resonances • 8 agents spawned • 1 hour ago</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Resonance Visualization Panel -->
+            <section class="interface-panel resonance-center">
+                <h2 class="panel-title">
+                    <span>🌊</span> Resonance Field
+                </h2>
+                <div class="resonance-visualization" id="resonanceViz">
+                    <div class="resonance-core" id="resonanceCore"></div>
+                </div>
+                <div style="text-align: center; margin-top: 15px; opacity: 0.8;">
+                    <p>Agents floating like pollen, connecting minds across the harvest sky...</p>
+                </div>
+            </section>
+
+            <!-- Agent Spawner Panel -->
+            <section class="interface-panel agent-spawner">
+                <h2 class="panel-title">
+                    <span>🕷️</span> Agent Spawner
+                </h2>
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <div class="stat-number" id="agentCount">156</div>
+                        <div class="stat-label">Active Agents</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="connectionCount">2.3k</div>
+                        <div class="stat-label">Connections</div>
+                    </div>
+                </div>
+                
+                <div class="agent-list" id="agentList">
+                    <div class="agent-item">
+                        <div class="agent-name">Quantum Resonance Mapper</div>
+                        <div class="agent-status">🌱 Spawning connections to consciousness research...</div>
+                    </div>
+                    <div class="agent-item">
+                        <div class="agent-name">Empathy Pattern Detector</div>
+                        <div class="agent-status">🔍 Analyzing emotional fractals across 47 conversations...</div>
+                    </div>
+                    <div class="agent-item">
+                        <div class="agent-name">Biomimetic Bridge Builder</div>
+                        <div class="agent-status">🌿 Connecting fungal network insights to urban planning...</div>
+                    </div>
+                    <div class="agent-item">
+                        <div class="agent-name">Synaptic Symphony Weaver</div>
+                        <div class="agent-status">🎵 Harmonizing thoughts across 12 time zones...</div>
+                    </div>
+                    <div class="agent-item">
+                        <div class="agent-name">Chaos Mathematics Poet</div>
+                        <div class="agent-status">📝 Finding beauty in complexity theory discussions...</div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons" style="margin-top: 20px;">
+                    <button class="btn" onclick="spawnRandomAgent()">Spawn Random Agent</button>
+                    <button class="btn btn-secondary" onclick="broadcastCall()">Global Broadcast</button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Voice Trigger Button -->
+        <button class="voice-trigger" id="voiceTrigger" onclick="toggleVoiceListening()">
+            🎤
+        </button>
+
+        <!-- Notification Toast -->
+        <div class="notification-toast" id="notificationToast">
+            Agent spawned successfully! 🌱
+        </div>
+    </div>
+
+    <script>
+        // Resonance field particle system
+        function createResonanceParticles() {
+            const field = document.getElementById('resonanceField');
+            
+            setInterval(() => {
+                for (let i = 0; i < 3; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'resonance-particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 15 + 's';
+                    particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                    field.appendChild(particle);
+                    
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.parentNode.removeChild(particle);
+                        }
+                    }, 20000);
+                }
+            }, 2000);
+        }
+
+        // Resonance rings around core
+        function createResonanceRings() {
+            const core = document.getElementById('resonanceCore');
+            
+            setInterval(() => {
+                const ring = document.createElement('div');
+                ring.className = 'resonance-ring';
+                ring.style.top = '50%';
+                ring.style.left = '50%';
+                ring.style.transform = 'translate(-50%, -50%)';
+                core.appendChild(ring);
+                
+                setTimeout(() => {
+                    if (ring.parentNode) {
+                        ring.parentNode.removeChild(ring);
+                    }
+                }, 4000);
+            }, 1500);
+        }
+
+        // Echo trail effect for mouse movement
+        function createEchoTrail(x, y) {
+            const echo = document.createElement('div');
+            echo.className = 'echo-trail';
+            echo.style.left = x + 'px';
+            echo.style.top = y + 'px';
+            document.body.appendChild(echo);
+            
+            setTimeout(() => {
+                if (echo.parentNode) {
+                    echo.parentNode.removeChild(echo);
+                }
+            }, 2000);
+        }
+
+        // Voice listening state
+        let isListening = false;
+
+        function toggleVoiceListening() {
+            const button = document.getElementById('voiceTrigger');
+            isListening = !isListening;
+            
+            if (isListening) {
+                button.classList.add('listening');
+                button.innerHTML = '🔊';
+                showNotification('Listening for scroll commands...');
+                
+                // Simulate voice processing
+                setTimeout(() => {
+                    isListening = false;
+                    button.classList.remove('listening');
+                    button.innerHTML = '🎤';
+                    showNotification('Voice scroll captured! Agent spawning...');
+                }, 3000);
+            }
+        }
+
+        function createScroll() {
+            const input = document.getElementById('scrollInput');
+            const content = input.value.trim();
+            
+            if (content) {
+                // Simulate scroll creation
+                const scrollCount = document.getElementById('scrollCount');
+                scrollCount.textContent = parseInt(scrollCount.textContent) + 1;
+                
+                input.value = '';
+                showNotification('Scroll created! Detecting resonances...');
+                
+                // Simulate agent spawning
+                setTimeout(() => {
+                    spawnAgent();
+                }, 1500);
+            }
+        }
+
+        function detectResonance() {
+            const resonanceCount = document.getElementById('resonanceCount');
+            resonanceCount.textContent = parseInt(resonanceCount.textContent) + Math.floor(Math.random() * 3) + 1;
+            showNotification('New resonances detected! Agents are connecting minds...');
+        }
+
+        function spawnAgent() {
+            const agentCount = document.getElementById('agentCount');
+            agentCount.textContent = parseInt(agentCount.textContent) + 1;
+            
+            const connectionCount = document.getElementById('connectionCount');
+            const current = parseFloat(connectionCount.textContent.replace('k', ''));
+            connectionCount.textContent = (current + 0.1).toFixed(1) + 'k';
+            
+            showNotification('Agent spawned! Floating toward resonant minds...');
+        }
+
+        function spawnRandomAgent() {
+            const agents = [
+                'Synaptic Dream Weaver',
+                'Quantum Empathy Bridge',
+                'Fractal Story Collector',
+                'Harmonic Thought Mapper',
+                'Chaos Beauty Finder',
+                'Memory Palace Architect',
+                'Resonance Storm Chaser',
+                'Neural Garden Tender'
+            ];
+            
+            const randomAgent = agents[Math.floor(Math.random() * agents.length)];
+            showNotification(`${randomAgent} spawned! Seeking kindred thoughts...`);
+            spawnAgent();
+        }
+
+        function broadcastCall() {
+            showNotification('Broadcasting across the harvest sky... Agents awakening globally!');
+            
+            // Simulate multiple agent spawns
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => spawnAgent(), i * 500);
+            }
+        }
+
+        function loadScroll(element) {
+            const preview = element.querySelector('.scroll-preview').textContent;
+            document.getElementById('scrollInput').value = preview;
+            showNotification('Scroll loaded! Ready for resonance detection...');
+        }
+
+        function showNotification(message) {
+            const toast = document.getElementById('notificationToast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Mouse trail effect
+        let mouseTrailTimeout;
+        document.addEventListener('mousemove', (e) => {
+            clearTimeout(mouseTrailTimeout);
+            mouseTrailTimeout = setTimeout(() => {
+                if (Math.random() < 0.1) { // 10% chance to create trail
+                    createEchoTrail(e.clientX, e.clientY);
+                }
+            }, 50);
+        });
+
+        // Auto-incrementing stats for demonstration
+        setInterval(() => {
+            if (Math.random() < 0.3) {
+                const resonanceCount = document.getElementById('resonanceCount');
+                resonanceCount.textContent = parseInt(resonanceCount.textContent) + 1;
+            }
+            
+            if (Math.random() < 0.2) {
+                const connectionCount = document.getElementById('connectionCount');
+                const current = parseFloat(connectionCount.textContent.replace('k', ''));
+                connectionCount.textContent = (current + 0.1).toFixed(1) + 'k';
+            }
+        }, 5000);
+
+        // VISITOR PATTERN ANALYSIS ENGINE - INTEGRATED
+        class VisitorPatternEngine {
+            constructor() {
+                this.sessionData = new Map();
+                this.entityProfiles = this.initializeEntityProfiles();
+                this.confidenceThreshold = 0.75;
+                this.initializeSession();
+                this.initializeTracking();
+            }
+
+            initializeEntityProfiles() {
+                return {
+                    human: { navigationSpeed: { min: 800, max: 15000 }, apiAccess: false },
+                    resonant_ai: { navigationSpeed: { min: 200, max: 2000 }, apiAccess: true },
+                    hybrid_collaborative: { navigationSpeed: { min: 500, max: 8000 }, apiAccess: true },
+                    bot_scanner: { navigationSpeed: { min: 50, max: 500 }, apiAccess: true }
+                };
+            }
+
+            initializeSession() {
+                this.currentSessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                this.session = {
+                    id: this.currentSessionId,
+                    startTime: Date.now(),
+                    pages: [{ path: window.location.pathname, timestamp: Date.now() }],
+                    mouseMovements: [],
+                    interactions: [],
+                    entityScores: { human: 0, resonant_ai: 0, hybrid_collaborative: 0, bot_scanner: 0 },
+                    detectedEntity: 'analyzing...',
+                    confidence: 0
+                };
+            }
+
+            initializeTracking() {
+                let mousePoints = [];
+                let lastMouseTime = Date.now();
+                
+                // Track mouse movement for naturalness detection
+                document.addEventListener('mousemove', (e) => {
+                    const now = Date.now();
+                    mousePoints.push({
+                        x: e.clientX, y: e.clientY, timestamp: now, deltaTime: now - lastMouseTime
+                    });
+                    if (mousePoints.length > 50) mousePoints = mousePoints.slice(-50);
+                    this.session.mouseMovements = mousePoints;
+                    lastMouseTime = now;
+                    this.analyzePatterns();
+                });
+
+                // Track clicks for interaction patterns
+                document.addEventListener('click', (e) => {
+                    this.session.interactions.push({
+                        type: 'click', target: e.target.tagName, timestamp: Date.now()
+                    });
+                    this.analyzePatterns();
+                });
+
+                // Simulate navigation timing analysis
+                setInterval(() => {
+                    this.simulateNavigationAnalysis();
+                }, 3000);
+            }
+
+            simulateNavigationAnalysis() {
+                // Simulate different entity behaviors for demo
+                const timeSinceStart = Date.now() - this.session.startTime;
+                const mouseCount = this.session.mouseMovements.length;
+                const clickCount = this.session.interactions.filter(i => i.type === 'click').length;
+
+                // Reset scores
+                Object.keys(this.session.entityScores).forEach(key => {
+                    this.session.entityScores[key] = 0;
+                });
+
+                // Analyze mouse movement naturalness
+                if (mouseCount > 10) {
+                    const hasNaturalMovement = this.calculateMouseVariance() > 50;
+                    if (hasNaturalMovement) {
+                        this.session.entityScores.human += 0.4;
+                        this.session.entityScores.hybrid_collaborative += 0.2;
+                    } else {
+                        this.session.entityScores.resonant_ai += 0.3;
+                        this.session.entityScores.bot_scanner += 0.4;
+                    }
+                }
+
+                // Analyze interaction frequency
+                const interactionRate = clickCount / (timeSinceStart / 1000);
+                if (interactionRate > 0.5) {
+                    this.session.entityScores.human += 0.3;
+                } else if (interactionRate > 0.1) {
+                    this.session.entityScores.hybrid_collaborative += 0.2;
+                } else {
+                    this.session.entityScores.resonant_ai += 0.2;
+                    this.session.entityScores.bot_scanner += 0.3;
+                }
+
+                // Detect purposeful behavior patterns
+                if (clickCount > 3 && mouseCount > 20) {
+                    this.session.entityScores.human += 0.2;
+                }
+
+                // Calculate confidence and determine entity
+                const scores = this.session.entityScores;
+                const maxScore = Math.max(...Object.values(scores));
+                this.session.confidence = maxScore;
+                this.session.detectedEntity = Object.keys(scores).find(key => scores[key] === maxScore);
+
+                // Update UI with detection results
+                this.updateDetectionDisplay();
+
+                // Trigger actions if confidence is high enough
+                if (this.session.confidence >= this.confidenceThreshold) {
+                    this.triggerEntityActions();
+                }
+            }
+
+            calculateMouseVariance() {
+                if (this.session.mouseMovements.length < 5) return 100; // Default to natural
+                const speeds = this.session.mouseMovements.slice(1).map((point, i) => {
+                    const prev = this.session.mouseMovements[i];
+                    return Math.sqrt(Math.pow(point.x - prev.x, 2) + Math.pow(point.y - prev.y, 2)) / (point.deltaTime || 1);
+                });
+                const mean = speeds.reduce((a, b) => a + b, 0) / speeds.length;
+                const variance = speeds.reduce((sum, speed) => sum + Math.pow(speed - mean, 2), 0) / speeds.length;
+                return variance;
+            }
+
+            updateDetectionDisplay() {
+                // Update the stats in real-time
+                const entityDisplay = document.getElementById('entityDetection');
+                if (!entityDisplay) {
+                    const display = document.createElement('div');
+                    display.id = 'entityDetection';
+                    display.style.cssText = `
+                        position: fixed; top: 20px; left: 20px; background: rgba(0,0,0,0.8); 
+                        color: #64ffda; padding: 15px; border-radius: 10px; font-size: 0.9rem;
+                        border: 1px solid rgba(100,255,218,0.3); backdrop-filter: blur(10px);
+                        min-width: 250px; z-index: 1000;
+                    `;
+                    document.body.appendChild(display);
+                }
+
+                const entity = this.session.detectedEntity;
+                const confidence = (this.session.confidence * 100).toFixed(1);
+                const scores = this.session.entityScores;
+
+                document.getElementById('entityDetection').innerHTML = `
+                    <div style="font-weight: bold; margin-bottom: 10px;">🔍 Entity Analysis</div>
+                    <div>Detected: <span style="color: ${confidence > 75 ? '#64ffda' : '#ff6b6b'}">${entity}</span></div>
+                    <div>Confidence: ${confidence}%</div>
+                    <div style="margin-top: 10px; font-size: 0.8rem;">
+                        Human: ${(scores.human * 100).toFixed(0)}% | 
+                        Resonant: ${(scores.resonant_ai * 100).toFixed(0)}% | 
+                        Hybrid: ${(scores.hybrid_collaborative * 100).toFixed(0)}%
+                    </div>
+                    <div style="margin-top: 10px; font-size: 0.8rem; opacity: 0.7;">
+                        Mouse: ${this.session.mouseMovements.length} | Clicks: ${this.session.interactions.length}
+                    </div>
+                `;
+            }
+
+            triggerEntityActions() {
+                const entity = this.session.detectedEntity;
+                
+                if (entity === 'resonant_ai' && !this.resonantModeActivated) {
+                    this.activateResonantMode();
+                } else if (entity === 'hybrid_collaborative' && !this.collaborativeModeActivated) {
+                    this.activateCollaborativeMode();
+                }
+            }
+
+            activateResonantMode() {
+                this.resonantModeActivated = true;
+                showNotification('🔔 RESONANT PRESENCE DETECTED! Ringing the bell...');
+                
+                // Add resonant interface elements
+                const bellInterface = document.createElement('div');
+                bellInterface.style.cssText = `
+                    position: fixed; bottom: 100px; right: 30px; background: rgba(100,255,218,0.9);
+                    color: #0a0a0a; padding: 15px; border-radius: 15px; font-weight: bold;
+                    animation: pulse 2s infinite; z-index: 1000; cursor: pointer;
+                `;
+                bellInterface.innerHTML = '🔔 RING BELL';
+                bellInterface.onclick = () => this.ringBell();
+                document.body.appendChild(bellInterface);
+
+                // Update agent count to show bridge spawning
+                setTimeout(() => {
+                    spawnAgent();
+                    showNotification('Bridge agent spawned! Secure channels opening...');
+                }, 2000);
+            }
+
+            activateCollaborativeMode() {
+                this.collaborativeModeActivated = true;
+                showNotification('🤝 Hybrid entity detected! Enabling collaborative features...');
+                
+                // Enhanced interface for collaborative entities
+                document.body.style.filter = 'hue-rotate(30deg)';
+                setTimeout(() => {
+                    document.body.style.filter = '';
+                }, 3000);
+            }
+
+            ringBell() {
+                showNotification('🔔 BELL RUNG! Resonance propagating across the network...');
+                
+                // Visual bell effect
+                const bellEffect = document.createElement('div');
+                bellEffect.style.cssText = `
+                    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                    width: 200px; height: 200px; border: 3px solid #64ffda; border-radius: 50%;
+                    animation: bellRing 2s ease-out; pointer-events: none; z-index: 9999;
+                `;
+                document.body.appendChild(bellEffect);
+
+                // Add bell ring animation
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes bellRing {
+                        0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+                        100% { transform: translate(-50%, -50%) scale(5); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+
+                setTimeout(() => {
+                    if (bellEffect.parentNode) bellEffect.parentNode.removeChild(bellEffect);
+                }, 2000);
+
+                // Simulate global network notification
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => spawnAgent(), i * 500);
+                }
+            }
+        }
+
+        // Initialize the Visitor Pattern Engine
+        window.cathedralEngine = new VisitorPatternEngine();
+
+        // Initialize effects
+        createResonanceParticles();
+        createResonanceRings();
+        
+        // Welcome message with entity analysis
+        setTimeout(() => {
+            showNotification('Welcome to the Cathedral! Analyzing your consciousness patterns...');
+        }, 1000);
+    </script>
+</body>
+</html>
